@@ -1,41 +1,42 @@
-<x-app-layout>
-    <!DOCTYPE html>
-    <html lang="ja">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>お客様一覧</title>
+</head>
+<body>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>お客様一覧</title>
-    </head>
+    <h1>お客様一覧</h1>
 
-    <body>
+    @if (session('success'))
+        <div style="color: green;">
+            {{ session('success') }}
+        </div>
+    @endif
 
-        <h1>お客様一覧</h1>
-
-        @if ($cities->isEmpty())
-            <p>登録された都市はありません。</p>
-        @else
-            <table border="1">
+    @if ($customers->isEmpty())
+        <p>登録されたお客様はいません。</p>
+    @else
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+                <th>住所</th>
+                <th>連絡先</th>
+            </tr>
+            @foreach ($customers as $customer)
                 <tr>
-                    <th>ID</th>
-                    <th>都市名</th>
-                    <th>登録ユーザーID</th>
+                    <td>{{ $customer->id }}</td>
+                    <td>{{ $customer->name }}</td>
+                    <td>{{ $customer->address }}</td>
+                    <td>{{ $customer->phone_number }}</td>
                 </tr>
-                @foreach ($cities as $city)
-                    @foreach ($users as $user)
-                        <tr>
-                            <td>{{ $city->id }}</td>
-                            <td>{{ $city->city_name }}</td>
-                            <td>{{ $user->name }}</td>
-                        </tr>
-                    @endforeach
-                @endforeach
-            </table>
-        @endif
+            @endforeach
+        </table>
+    @endif
 
-        <br>
-        <a href="{{ route('cities.create') }}">都市を登録する</a>
+    <br>
+    <a href="{{ route('customers.create') }}">お客様を登録する</a>
 
-    </body>
-
-    </html>
+</body>
+</html>
